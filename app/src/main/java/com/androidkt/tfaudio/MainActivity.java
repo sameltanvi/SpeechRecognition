@@ -12,6 +12,7 @@ import android.util.Log;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import org.tensorflow.contrib.android.TensorFlowInferenceInterface;
 
@@ -283,29 +284,20 @@ public class MainActivity extends AppCompatActivity {
                                     }
                                 }
                                 label.setText(result.foundCommand);
-                                String s=result.foundCommand;
 
-                                    label2.append("\n"+s+"\n");
+                                label2.append("\n"+"\n"+result.foundCommand);
+                                switch (result.foundCommand){
 
+                                    case "stop" :
+                                        Toast.makeText(getApplicationContext(), "Word is stop", Toast.LENGTH_LONG).show();
 
-                                /**StringBuilder builder = new StringBuilder();
-                                for (String details : labels){
-                                    builder.append(details + "\n");
+                                    case "go":
+                                        Toast.makeText(getApplicationContext(),"GO", Toast.LENGTH_SHORT).show();
                                 }
-                                label.setText(builder.toString());
-
-                                 **/
-                                //System.out.print("hi");
-                                //System.out.println(result.foundCommand);
-                                //label.setText(str.get(0));
-
-                                //label.setText(result.foundCommand);
 
                             }
 
 
-
-                            //label.setText(result.foundCommand);
                         }
                     });
             try {
