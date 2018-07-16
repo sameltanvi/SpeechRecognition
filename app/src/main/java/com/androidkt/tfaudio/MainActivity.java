@@ -1,15 +1,25 @@
 package com.androidkt.tfaudio;
 
+import android.Manifest;
+import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.media.AudioFormat;
 import android.media.AudioRecord;
 import android.media.MediaRecorder;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
+import android.provider.MediaStore;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
+import android.support.v4.content.FileProvider;
 import android.support.v7.app.AppCompatActivity;
 import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
+import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -17,11 +27,17 @@ import android.widget.Toast;
 import org.tensorflow.contrib.android.TensorFlowInferenceInterface;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.concurrent.locks.ReentrantLock;
+
+import static android.app.PendingIntent.getActivity;
+import static android.content.pm.PackageManager.*;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -39,6 +55,8 @@ public class MainActivity extends AppCompatActivity {
     private static final String INPUT_DATA_NAME = "decoded_sample_data:0";
     private static final String SAMPLE_RATE_NAME = "decoded_sample_data:1";
     private static final String OUTPUT_SCORES_NAME = "labels_softmax";
+    static final int REQUEST_IMAGE_CAPTURE = 1;
+    static final int REQUEST_TAKE_PHOTO = 1;
 
     // UI elements.
     private static final int REQUEST_RECORD_AUDIO = 13;
@@ -60,6 +78,9 @@ public class MainActivity extends AppCompatActivity {
 
     private TextView label;
     private TextView label2;
+    private Button takePictureButton;
+    private ImageView imageView;
+    private Uri file;
     //private TextView label3;
 
     @Override
@@ -68,7 +89,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         label = findViewById(R.id.label);
-        label2=findViewById(R.id.label2);
+        label2 = findViewById(R.id.label2);
 
         // Load the labels for the model, but only display those that don't start
         // with an underscore.
@@ -109,6 +130,7 @@ public class MainActivity extends AppCompatActivity {
         // Start the recording and recognition threads.
         requestMicrophonePermission();
         startRecognition();
+
     }
 
     private void requestMicrophonePermission() {
@@ -121,9 +143,11 @@ public class MainActivity extends AppCompatActivity {
             int requestCode, String[] permissions, int[] grantResults) {
         if (requestCode == REQUEST_RECORD_AUDIO
                 && grantResults.length > 0
-                && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                && grantResults[0] == PERMISSION_GRANTED) {
             startRecording();
             startRecognition();
+            //Toast.makeText(getApplicationContext(), "HELLO", Toast.LENGTH_SHORT).show();
+            //takePictureButton.setEnabled(true);
         }
     }
 
@@ -270,7 +294,6 @@ public class MainActivity extends AppCompatActivity {
             final RecognizeCommands.RecognitionResult result = recognizeCommands.processLatestResults(outputScores, currentTime);
 
 
-
             runOnUiThread(
                     new Runnable() {
                         @Override
@@ -285,14 +308,14 @@ public class MainActivity extends AppCompatActivity {
                                 }
                                 label.setText(result.foundCommand);
 
-                                label2.append("\n"+"\n"+result.foundCommand);
-                                switch (result.foundCommand){
+                                label2.append("\n" + "\n" + result.foundCommand);
+                                switch (result.foundCommand) {
 
-                                    case "stop" :
-                                        Toast.makeText(getApplicationContext(), "Word is stop", Toast.LENGTH_LONG).show();
+                                    case "stop":
+                                        Toast.makeText(getApplicationContext(), "Word is stop, button will be clicked", Toast.LENGTH_LONG).show();
 
                                     case "go":
-                                        Toast.makeText(getApplicationContext(),"GO", Toast.LENGTH_SHORT).show();
+                                        Toast.makeText(getApplicationContext(), "GO", Toast.LENGTH_SHORT).show();
                                 }
 
                             }
@@ -311,4 +334,5 @@ public class MainActivity extends AppCompatActivity {
 
         Log.v(LOG_TAG, "End recognition");
     }
+
 }
