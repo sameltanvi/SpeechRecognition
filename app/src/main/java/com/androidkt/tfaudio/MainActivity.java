@@ -356,10 +356,6 @@ public class MainActivity extends AppCompatActivity {
         startActivityForResult(intent, 100);
 
     }
-
-
-    //if(Build.VERSION.SDK_INT>=24)
-
     private File getOutputMediaFile(){
         File mediaStorageDir = new File(Environment.getExternalStoragePublicDirectory(
                 Environment.DIRECTORY_PICTURES), "CameraDemo");
