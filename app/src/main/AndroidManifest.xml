@@ -4,8 +4,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.androidkt.tfaudio">
 
-    <uses-permission-sdk-23 android:name="android.permission.CAMERA" />
-    <uses-permission-sdk-23 android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
     <uses-permission android:name="android.permission.RECORD_AUDIO"/>
     <uses-feature android:name="android.hardware.camera" android:required="true"/>
 
@@ -20,7 +20,9 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
-        <activity android:name=".MainActivity">
+        <activity android:name=".MainActivity"
+
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
