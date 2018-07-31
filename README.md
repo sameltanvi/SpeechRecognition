@@ -2,6 +2,11 @@
 Android Speech Recognition
 ===================================
 
+>>For a pretrained model demo,
+
+Download the source code, extract & import the folder and run it in Android Studio. 
+If you do not have Android Studio you can get it from, https://developer.android.com/studio/
+
 This code demonstrates speech recognition through basic functionalities of Camera. It records, recognises a short one second audio file and then gives control to Camera2 API. The Camera2API then clicks and saves the picture to the file directory. 
 
 Introduction
@@ -22,7 +27,7 @@ Before you start,
 	>Connect your device and run it on it via emulator. 
 	>Speak one second word from the set and the app should work fine! 
 
-INSTALLATION OF TENSORFLOW
+**INSTALLATION OF TENSORFLOW
 
 
 Python download
@@ -97,7 +102,7 @@ Print (sess.run(hello))
 This verifies that your installation is correct and you are now ready to use tensorflow in your programs. 
 
 
-Training set tutorial
+**Training set tutorial
 
 >Download tensorflow source code from https://github.com/tensorflow/tensorflow
 
@@ -305,7 +310,7 @@ This says it identifies the word as left for 93.78% which is a good score.
 
 Testing any other random audio file similarly,we can predict the accuracy. 
 
-Now, put the frozen graph and the labels text file into the android/assets directory and run the application with your trained model. 
+**Now, put the frozen graph and the labels text file into the android/assets directory and run the application with your trained model. 
 
 
 
